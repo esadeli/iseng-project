@@ -3,9 +3,10 @@
 const express = require('express')
 const router = express.Router()
 const DoctorController = require('../controllers/DoctorController')
+const IsLogin = require('../middlewares/IsLogin')
 
 // create dokter
-router.post('/',(req,res)=>{
+router.post('/',IsLogin,(req,res)=>{
     DoctorController.createDokter(req,res)
 })
 

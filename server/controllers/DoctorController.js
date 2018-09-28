@@ -6,6 +6,7 @@ class DoctorController {
 
     // create dokter
     static createDokter(req,res){
+        console.log('DECODED -->',req.decoded)
         Doctor.create({
             name: req.body.name,
             skill: req.body.skill,
