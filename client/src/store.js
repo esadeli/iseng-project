@@ -8,7 +8,8 @@ export default new Vuex.Store({
     token: '',
     namelengkap: '',
     userid: '',
-    error: ''
+    error: '',
+    listdoctor: []
   },
   mutations: {
     gettoken (state, payload) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     geterror (state, payload) {
       state.error = payload
+    },
+    getlistdoctor (state, payload) {
+      state.listdoctor = payload
     }
   },
   actions: {
@@ -32,10 +36,17 @@ export default new Vuex.Store({
         data: payload
       })
         .then(user => {
-          console.log('USER--->', user.data)
+          localStorage.setItem('token', user.data.token)
+          context.commit('gettoken', user.data.token)
+          context.commit('getname', user.data.name)
+          context.commit('getuserid', user.data.userid)
+          context.commit('geterror', '') //
         })
-        .catch(error => {
-          console.log('ERROR: ', error)
+        .catch(err => {
+          context.commit('geterror', err) // how to catch the error message ?
+          context.commit('gettoken', '')
+          context.commit('getname', '')
+          context.commit('getuserid', '')
         })
     },
     loginobj (context, payload) {
@@ -45,16 +56,36 @@ export default new Vuex.Store({
         data: payload
       })
         .then(user => {
-          console.log('USER LOGIN-->', user.data)
-
           // send to actions
+          localStorage.setItem('token', user.data.token)
           context.commit('gettoken', user.data.token)
           context.commit('getname', user.data.name)
           context.commit('getuserid', user.data.userid)
-          // context.commit('gettoken')
+          context.commit('geterror', '')
+        })
+        .catch(err => {
+          context.commit('geterror', err)
+          context.commit('gettoken', '')
+          context.commit('getname', '')
+          context.commit('getuserid', '')
+        })
+    },
+    logoutobj (context, payload) {
+      context.commit('geterror', '')
+      context.commit('gettoken', '')
+      context.commit('getname', '')
+      context.commit('getuserid', '')
+    },
+    getlistdoctor (context, payload) {
+      axios({
+        method: 'GET',
+        url: 'http://localhost:3001/doctors/lists'
+      })
+        .then(doctors => {
+          console.log('Doctor ---->', doctors.data.data)
+          context.commit('getlistdoctor', doctors.data.data)
         })
         .catch(error => {
-          console.log('ERROR: ', error)
           context.commit('geterror', error)
         })
     }

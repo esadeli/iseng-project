@@ -40,6 +40,9 @@ export default {
   computed: {
     namelengkap () {
       return this.$store.state.namelengkap
+    },
+    error () {
+      return this.$store.state.error
     }
   }
 }

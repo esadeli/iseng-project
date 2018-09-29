@@ -14,15 +14,24 @@
                 <span class="navbar-text">
                     <div class = "row">
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">
-                                Register
-                            </button>
+                            <div v-if= "token === '' || token === null || namelengkap === ''">
+                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">
+                                    Register
+                                </button>
+                            </div>
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
-                                Login
-                            </button>
+                            <div v-if= "token === '' || token === null || namelengkap === ''">
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+                                 Login
+                              </button>
+                            </div>
+                            <div v-else-if= "token !== '' || token !== null || namelengkap !== ''">
+                              <button type="button" class="btn btn-info" v-on:click = "logout()">
+                                Logout
+                              </button>
+                            </div>
                         </div>
                         <div class="col-md-1"></div>
                     </div>
@@ -131,6 +140,18 @@ export default {
       }
       this.$store.dispatch('loginobj', loginObj)
       $('#loginModal').modal('hide')
+    },
+    logout () {
+      localStorage.removeItem('token')
+      this.$store.dispatch('logoutobj')
+    }
+  },
+  computed: {
+    namelengkap () {
+      return this.$store.state.namelengkap
+    },
+    token () {
+      return this.$store.state.token
     }
   }
 }
