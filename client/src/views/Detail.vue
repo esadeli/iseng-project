@@ -43,8 +43,7 @@ export default {
   //   },
   watch: {
     '$route.params.id': function (id) {
-      //   console.log('ini id loh--->', id)
-      this.$store.dispatch('getdetaildoctor', id)
+      console.log('ini id loh--->', id)
     }
   }
 }
