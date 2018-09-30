@@ -82,7 +82,6 @@ export default new Vuex.Store({
         url: 'http://localhost:3001/doctors/lists'
       })
         .then(doctors => {
-          console.log('Doctor ---->', doctors.data.data)
           context.commit('getlistdoctor', doctors.data.data)
         })
         .catch(error => {

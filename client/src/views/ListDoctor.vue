@@ -1,10 +1,12 @@
 <template>
-    <div>
+    <div id= "listcustom">
        <div v-for= "(doctor,index) in listdoctor" :key= "index">
-          <div class="card" style="width: 30rem;">
+          <div class="card" style="width: 40rem;">
             <div class="card-body">
-                <h5 class="card-title">{{ doctor.name }}</h5>
-                <hr>
+                <div class = "bg-secondary text-white">
+                   <h5 class="card-title">{{ doctor.name }}</h5>
+                   <hr>
+                </div>
                 <div class="row">
                     <h5>Skill:</h5>
                     <ul>
@@ -14,15 +16,6 @@
                     </ul>
                 </div>
                 <hr>
-                <div class="row">
-                    <h5>Schedule:</h5>
-                    <ul>
-                        <li class= "listmargin" v-for= "(schedule, index3) in doctor.schedule" :key= "index3">
-                           {{ schedule }}
-                        </li>
-                    </ul>
-                    <hr>
-                </div>
             </div>
           </div>
           <div class="row">
@@ -49,6 +42,9 @@ export default {
 </script>
 
 <style>
+#listcustom {
+  margin-top: 10px;
+}
 .listmargin {
    text-align: left
 }

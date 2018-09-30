@@ -5,10 +5,11 @@
         <div v-if = "token === '' || token === null || namelengkap === '' ">
 
         </div>
-        <div v-else-if= "token !== '' || token !== null || namelengkap !== '' ">
+        <div class= "bg-primary text-white" v-else-if= "token !== '' || token !== null || namelengkap !== '' ">
           Hi! {{ namelengkap }}
         </div>
-        <a href="#">Dashboard</a>
+        <p>Search Doctor</p>
+
     </div>
 </div>
 </template>
