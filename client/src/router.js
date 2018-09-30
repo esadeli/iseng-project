@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Doctor from './views/Doctor.vue'
 import ListDoctor from './views/ListDoctor.vue'
 import Detail from './views/Detail.vue'
+import AddDoctor from './views/AddDoctor.vue'
 
 Vue.use(Router)
 
@@ -38,8 +39,12 @@ export default new Router({
         {
           path: ':id',
           name: 'id',
-          component: Detail,
-          props: true
+          component: Detail
+        },
+        {
+          path: '/doctor/add',
+          name: 'adddoctor',
+          component: AddDoctor
         }
       ]
     }

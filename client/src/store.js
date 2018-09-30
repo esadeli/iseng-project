@@ -103,6 +103,35 @@ export default new Vuex.Store({
         .catch(error => {
           context.commit('geterror', error)
         })
+    },
+    createdoctor (context, payload) {
+      axios({
+        method: 'POST',
+        url: 'http://localhost:3001/doctors',
+        headers: {
+          token: payload.token
+        },
+        data: {
+          name: payload.name,
+          skill: payload.skill,
+          schedule: payload.schedule
+        } })
+        .then(doctor => {
+          // get updated list of doctors
+          axios({
+            method: 'GET',
+            url: 'http://localhost:3001/doctors/lists'
+          })
+            .then(doctors => {
+              context.commit('getlistdoctor', doctors.data.data)
+            })
+            .catch(error => {
+              context.commit('geterror', error)
+            })
+        })
+        .catch(error => {
+          context.commit('geterror', error)
+        })
     }
   }
 })

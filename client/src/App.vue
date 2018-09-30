@@ -12,9 +12,10 @@
 </template>
 <script>
 import Navbar from '@/components/Navbar.vue'
+import Doctor from '@/views/Doctor.vue'
 export default {
   components: {
-    Navbar
+    Navbar, Doctor
   }
 }
 </script>

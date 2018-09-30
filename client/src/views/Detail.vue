@@ -31,17 +31,20 @@
 </template>
 
 <script>
-// import axios from 'axios'
 export default {
   name: 'Detail',
-  data () {
-    return {
-      doctorid: ''
-    }
-  },
   computed: {
     detaildoctor () {
       return this.$store.state.detaildoctor
+    }
+  },
+  //   created () {
+  //     console.log('TEST---------------->', $route.params.id)
+  //   },
+  watch: {
+    '$route.params.id': function (id) {
+      //   console.log('ini id loh--->', id)
+      this.$store.dispatch('getdetaildoctor', id)
     }
   }
 }

@@ -8,7 +8,10 @@
         <div class= "bg-primary text-white" v-else-if= "token !== '' || token !== null || namelengkap !== '' ">
           Hi! {{ namelengkap }}
           <br/>
-          <button type="button" class= "btn btn-secondary">Tambah Dokter</button>
+          <router-link :to="{name: 'adddoctor'}">
+            <button type="button" class= "btn btn-secondary">
+            Tambah Dokter</button>
+          </router-link>
         </div>
         <div class= "row">
           <div class="col-md-9"></div>
@@ -21,7 +24,7 @@
         </div>
         <div v-for= "(doctor,index) in listdoctor" :key= "index" >
           <router-link :to="{name: 'id', params: { id: doctor._id }}">
-            <label v-on:click= "detaildoctor(doctor._id)">{{ doctor.name }}</label>
+            <label v-on:click = "detaildoctor(doctor._id)">{{ doctor.name }}</label>
           </router-link>
         </div>
     </div>
