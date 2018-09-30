@@ -46,6 +46,6 @@ export default {
   margin-top: 10px;
 }
 .listmargin {
-   text-align: left
+  text-align: left
 }
 </style>

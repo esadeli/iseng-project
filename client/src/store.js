@@ -9,7 +9,8 @@ export default new Vuex.Store({
     namelengkap: '',
     userid: '',
     error: '',
-    listdoctor: []
+    listdoctor: [],
+    detaildoctor: {}
   },
   mutations: {
     gettoken (state, payload) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     getlistdoctor (state, payload) {
       state.listdoctor = payload
+    },
+    getdetaildoctor (state, payload) {
+      state.detaildoctor = payload
     }
   },
   actions: {
@@ -83,6 +87,18 @@ export default new Vuex.Store({
       })
         .then(doctors => {
           context.commit('getlistdoctor', doctors.data.data)
+        })
+        .catch(error => {
+          context.commit('geterror', error)
+        })
+    },
+    getdetaildoctor (context, payload) {
+      axios({
+        method: 'GET',
+        url: `http://localhost:3001/doctors/${payload}`
+      })
+        .then(doctor => {
+          context.commit('getdetaildoctor', doctor.data.data)
         })
         .catch(error => {
           context.commit('geterror', error)

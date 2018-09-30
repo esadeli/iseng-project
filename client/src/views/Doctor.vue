@@ -16,10 +16,11 @@
 <script>
 import Sidemenu from '@/components/Sidemenu.vue'
 import ListDoctor from '@/views/ListDoctor.vue'
+import Detail from '@/views/Detail.vue'
 export default {
   name: 'Doctor',
   components: {
-    Sidemenu, ListDoctor
+    Sidemenu, ListDoctor, Detail
   },
   computed: {
     token () {

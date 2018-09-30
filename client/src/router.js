@@ -3,6 +3,7 @@ import Router from 'vue-router'
 // import Home from './views/Home.vue'
 import Doctor from './views/Doctor.vue'
 import ListDoctor from './views/ListDoctor.vue'
+import Detail from './views/Detail.vue'
 
 Vue.use(Router)
 
@@ -14,7 +15,7 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Doctor,
-      redirect: { name: 'doctor' }
+      redirect: { name: 'listdoctor' }
     },
     {
       path: '/about',
@@ -33,6 +34,12 @@ export default new Router({
           path: '/',
           name: 'listdoctor',
           component: ListDoctor
+        },
+        {
+          path: ':id',
+          name: 'id',
+          component: Detail,
+          props: true
         }
       ]
     }
