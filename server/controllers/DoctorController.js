@@ -4,7 +4,7 @@ const Doctor = require('../models/doctor')
 
 class DoctorController {
 
-    // create dokter
+    // create doctor
     static createDokter(req,res){
         console.log('DECODED -->',req.decoded)
         Doctor.create({
@@ -25,7 +25,7 @@ class DoctorController {
         })
     }
 
-    // get list of dokter
+    // get list of doctors
     static getListofDoctors(req,res){
         Doctor.find({})
             .then(doctors =>{
@@ -38,6 +38,22 @@ class DoctorController {
                 res.status(500).json({
                     msg: 'ERROR: ',error
                 })  
+            })
+    }
+
+    // get detail of one doctor
+    static getDetailOneDoctor(req,res){
+        Doctor.findOne({ _id: req.params.id})
+            .then(doctor => {
+                res.status(200).json({
+                    msg: 'Detail of Doctor',
+                    data: doctor
+                })
+            })
+            .catch(error =>{
+                res.status(500).json({
+                    msg: 'ERROR: ',error
+                })
             })
     }
 }
