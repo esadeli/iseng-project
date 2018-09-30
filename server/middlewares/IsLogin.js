@@ -7,7 +7,6 @@ function IsLogin(req,res,next) {
     jwt.verify(req.headers.token,process.env.SECRETTOKEN, (err,decoded)=>{
         if(!err){
             let objdecoded = decoded
-            // console.log('DECODED---->',decoded)
             User.findOne({
                 _id: decoded.userid
             })
