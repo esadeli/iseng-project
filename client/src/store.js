@@ -60,6 +60,7 @@ export default new Vuex.Store({
         data: payload
       })
         .then(user => {
+          console.log('user--->', user)
           // send to actions
           localStorage.setItem('token', user.data.token)
           context.commit('gettoken', user.data.token)
@@ -68,7 +69,8 @@ export default new Vuex.Store({
           context.commit('geterror', '')
         })
         .catch(err => {
-          context.commit('geterror', err)
+          console.log('ERROR---->', err.response.data)
+          context.commit('geterror', err.response.data)
           context.commit('gettoken', '')
           context.commit('getname', '')
           context.commit('getuserid', '')
