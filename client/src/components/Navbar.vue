@@ -23,6 +23,7 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
                             <div v-if= "token === '' || token === null || namelengkap === ''">
+                              <div id= "google-signin-button" class="g-signin2"></div>
                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
                                  Login
                               </button>
@@ -108,10 +109,15 @@
         </div>
     </div>
 </template>
-
+<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
 <script>
 export default {
   name: 'Navbar',
+  mounted () {
+    gapi.signin2.render('google-signin-button', {
+      onsuccess: this.onSignIn
+    })
+  },//
   data () {
     return {
       logininput: '',
@@ -119,8 +125,19 @@ export default {
       regname: '',
       regusername: '',
       regemail: '',
-      regpassword: ''
+      regpassword: '',
+      googleSignInParams: {
+        client_id: '742869772361-8bsmdes62f97gruqqiomk0qvjrlsdmdn.apps.googleusercontent.com'
+      },
+      googlename: '',
+      googleemail: ''
     }
+  },
+  created (){
+    gapi.signin2.render('google-signin-button', {
+      onsuccess: this.onSignIn,
+      onfailure: this.onSignInError
+    })
   },
   methods: {
     registerUser () {
@@ -144,6 +161,21 @@ export default {
     logout () {
       localStorage.removeItem('token')
       this.$store.dispatch('logoutobj')
+    },
+    onSignIn(googleUser) {
+        console.log('MASUK------------------------------------------->')
+        const profile = googleUser.getBasicProfile();
+        this.googlename = profile.getName()
+        this.googleemail = profile.getEmail()
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        // location.reload()
+    },
+    onSignInError (error) {
+      // `error` contains any error occurred.
+      console.log('OH NOES', error)
     }
   },
   computed: {
