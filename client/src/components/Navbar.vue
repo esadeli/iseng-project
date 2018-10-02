@@ -115,7 +115,7 @@
 </template>
 <script>
 export default {
-  name: 'Navbar',  
+  name: 'Navbar',
   mounted () {
     /**
      * client_id: '742869772361-8bsmdes62f97gruqqiomk0qvjrlsdmdn.apps.googleusercontent.com',
@@ -125,13 +125,13 @@ export default {
       // Retrieve the singleton for the GoogleAuth library and set up the client.
       const auth2 = window.gapi.auth2.init({
         client_id: '742869772361-8bsmdes62f97gruqqiomk0qvjrlsdmdn.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
+        cookiepolicy: 'single_host_origin'
         // Request scopes in addition to 'profile' and 'email'
-        //scope: 'additional_scope'
-      });
-      this.attachSignin(auth2, document.getElementById('google-signin-button'));
-    });
-  },//
+        // scope: 'additional_scope'
+      })
+      this.attachSignin(auth2, document.getElementById('google-signin-button'))
+    })
+  },
   data () {
     return {
       logininput: '',
@@ -140,27 +140,29 @@ export default {
       regusername: '',
       regemail: '',
       regpassword: '',
-      googleSignInParams: {
-        client_id: '742869772361-8bsmdes62f97gruqqiomk0qvjrlsdmdn.apps.googleusercontent.com'
-      },
+      //   googleSignInParams: {
+      //     client_id: '742869772361-8bsmdes62f97gruqqiomk0qvjrlsdmdn.apps.googleusercontent.com'
+      //   },
       googlename: '',
       googleemail: ''
     }
   },
   methods: {
     attachSignin (auth2Instance, element) {
-        auth2Instance.attachClickHandler(element, {},
-        function(googleUser) {
-            console.log('MASUK------------------------------------------->')
-            const profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-            // location.reload()
-        }, function(error) {
-            alert(JSON.stringify(error, undefined, 2));
-        });
+      let self = this
+      auth2Instance.attachClickHandler(element, {},
+        function (googleUser) {
+          const profile = googleUser.getBasicProfile()
+          self.googlename = profile.getName()
+          self.googleemail = profile.getEmail()
+          console.log('ID: ' + profile.getId()) // Do not send to your backend! Use an ID token instead.
+          console.log('Name: ' + profile.getName())
+          console.log('Image URL: ' + profile.getImageUrl())
+          console.log('Email: ' + profile.getEmail()) // This is null if the 'email' scope is not present.
+          // location.reload()
+        }, function (error) {
+          alert(JSON.stringify(error, undefined, 2))
+        })
     },
     registerUser () {
       let registerObj = {
