@@ -23,7 +23,11 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
                             <div v-if= "token === '' || token === null || namelengkap === ''">
-                              <div id= "google-signin-button" class="g-signin2"></div>
+                              <div id="gSignInWrapper">
+                                <button id="google-signin-button" class="customGPlusSignIn">
+                                    Sign in with Google
+                                </button>
+                              </div>
                               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
                                  Login
                               </button>
@@ -109,14 +113,24 @@
         </div>
     </div>
 </template>
-<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
 <script>
 export default {
-  name: 'Navbar',
+  name: 'Navbar',  
   mounted () {
-    gapi.signin2.render('google-signin-button', {
-      onsuccess: this.onSignIn
-    })
+    /**
+     * client_id: '742869772361-8bsmdes62f97gruqqiomk0qvjrlsdmdn.apps.googleusercontent.com',
+     * cookiepolicy: 'single_host_origin'
+     */
+    window.gapi.load('auth2', () => {
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      const auth2 = window.gapi.auth2.init({
+        client_id: '742869772361-8bsmdes62f97gruqqiomk0qvjrlsdmdn.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        // Request scopes in addition to 'profile' and 'email'
+        //scope: 'additional_scope'
+      });
+      this.attachSignin(auth2, document.getElementById('google-signin-button'));
+    });
   },//
   data () {
     return {
@@ -133,13 +147,21 @@ export default {
       googleemail: ''
     }
   },
-  created (){
-    gapi.signin2.render('google-signin-button', {
-      onsuccess: this.onSignIn,
-      onfailure: this.onSignInError
-    })
-  },
   methods: {
+    attachSignin (auth2Instance, element) {
+        auth2Instance.attachClickHandler(element, {},
+        function(googleUser) {
+            console.log('MASUK------------------------------------------->')
+            const profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            // location.reload()
+        }, function(error) {
+            alert(JSON.stringify(error, undefined, 2));
+        });
+    },
     registerUser () {
       let registerObj = {
         name: this.regname,
@@ -148,6 +170,7 @@ export default {
         password: this.regpassword
       }
       this.$store.dispatch('registerobj', registerObj)
+      // eslint-disable-next-line
       $('#registerModal').modal('hide')
     },
     loginUser () {
@@ -156,26 +179,12 @@ export default {
         password: this.loginpassword
       }
       this.$store.dispatch('loginobj', loginObj)
+      // eslint-disable-next-line
       $('#loginModal').modal('hide')
     },
     logout () {
       localStorage.removeItem('token')
       this.$store.dispatch('logoutobj')
-    },
-    onSignIn(googleUser) {
-        console.log('MASUK------------------------------------------->')
-        const profile = googleUser.getBasicProfile();
-        this.googlename = profile.getName()
-        this.googleemail = profile.getEmail()
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-        // location.reload()
-    },
-    onSignInError (error) {
-      // `error` contains any error occurred.
-      console.log('OH NOES', error)
     }
   },
   computed: {
@@ -188,7 +197,6 @@ export default {
   }
 }
 </script>
-
 <style>
 
 </style>
