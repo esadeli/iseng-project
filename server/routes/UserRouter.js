@@ -14,4 +14,9 @@ router.post('/login',(req,res)=>{
     UserController.loginUser(req,res)
 })
 
+// login with google
+router.post('/logingoogle', (req,res) =>{
+    UserController.loginGoogle(req,res)
+})
+
 module.exports = router

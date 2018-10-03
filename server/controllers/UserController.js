@@ -136,6 +136,73 @@ class UserController {
 
         }
     }
+
+    // login/register via Google
+    static loginGoogle(req,res){
+        
+        // since email is unique let's check the email first
+        User.findOne({email: req.body.email})
+            .then(user=>{  // user has already there
+                if(user){
+                    jwt.sign({
+                        userid: user._id,
+                        name: user.name,
+                        email: user.email   
+                    },process.env.SECRETTOKEN, (err, token) =>{
+                        if(!err){
+                            res.status(200).json({
+                                msg: 'Login by Google Success',
+                                token: token
+                            })
+                        }else{
+                            res.status(500).json({
+                                msg: 'ERROR: ',err
+                            })
+                        }
+                    })
+                }else{
+                    // user doesn't exist
+                    let username = req.body.name
+                    username.replace(/\s/g,'')
+
+                    User.create({
+                        name: req.body.name,
+                        username: username, 
+                        email: req.body.email,
+                        password: 'bygoogle'
+                    })
+                      .then(user => {
+                          // get the token
+                          jwt.sign({
+                            userid: user._id,
+                            name: user.name,
+                            email: user.email   
+                        },process.env.SECRETTOKEN, (err, token) =>{
+                            if(!err){
+                                res.status(200).json({
+                                    msg: 'Login by Google Success',
+                                    token: token
+                                })
+                            }else{
+                                res.status(500).json({
+                                    msg: 'ERROR: ',err
+                                })
+                            }
+                        })
+                      })
+                      .catch(error =>{
+                        res.status(500).json({
+                            msg: 'ERROR: ',err
+                        })
+                      })
+                }
+            })
+            .catch(error =>{
+                res.status(500).json({
+                    msg: 'ERROR: ', error
+                })
+            })
+    }
 }
 
 module.exports = UserController

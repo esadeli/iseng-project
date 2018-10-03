@@ -60,6 +60,29 @@ export default new Vuex.Store({
         data: payload
       })
         .then(user => {
+          // console.log('user--->', user)
+          // send to actions
+          localStorage.setItem('token', user.data.token)
+          context.commit('gettoken', user.data.token)
+          context.commit('getname', user.data.name)
+          context.commit('getuserid', user.data.userid)
+          context.commit('geterror', '')
+        })
+        .catch(err => {
+          // console.log('ERROR---->', err.response.data)
+          context.commit('geterror', err.response.data)
+          context.commit('gettoken', '')
+          context.commit('getname', '')
+          context.commit('getuserid', '')
+        })
+    },
+    loginbygoogle (context, payload) {
+      axios({
+        method: 'POST',
+        url: 'http://localhost:3001/users/logingoogle',
+        data: payload
+      })
+        .then(user => {
           console.log('user--->', user)
           // send to actions
           localStorage.setItem('token', user.data.token)

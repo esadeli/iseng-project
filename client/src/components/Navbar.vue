@@ -160,6 +160,7 @@ export default {
           console.log('Image URL: ' + profile.getImageUrl())
           console.log('Email: ' + profile.getEmail()) // This is null if the 'email' scope is not present.
           // location.reload()
+          self.logingoogle()
         }, function (error) {
           alert(JSON.stringify(error, undefined, 2))
         })
@@ -183,6 +184,13 @@ export default {
       this.$store.dispatch('loginobj', loginObj)
       // eslint-disable-next-line
       $('#loginModal').modal('hide')
+    },
+    logingoogle () {
+      let googleObj = {
+        name: this.googlename,
+        email: this.googleemail
+      }
+      this.$store.dispatch('loginbygoogle', googleObj)
     },
     logout () {
       localStorage.removeItem('token')
