@@ -162,12 +162,12 @@ class UserController {
                     })
                 }else{
                     // user doesn't exist
-                    let username = req.body.name
-                    username.replace(/\s/g,'')
+                    let username = (req.body.email).split('@')
+                    // username.replace(/\s/g, '').toLowerCase()
 
                     User.create({
                         name: req.body.name,
-                        username: username, 
+                        username: username[0], 
                         email: req.body.email,
                         password: 'bygoogle'
                     })
