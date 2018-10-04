@@ -161,6 +161,7 @@ export default {
           console.log('Email: ' + profile.getEmail()) // This is null if the 'email' scope is not present.
           // location.reload()
           self.logingoogle()
+          self.logoutgoogle()
         }, function (error) {
           alert(JSON.stringify(error, undefined, 2))
         })
@@ -192,7 +193,15 @@ export default {
       }
       this.$store.dispatch('loginbygoogle', googleObj)
     },
+    logoutgoogle () {
+      // immediately signout from google
+      let auth2 = window.gapi.auth2.getAuthInstance()
+      auth2.signOut().then(function () {
+        console.log('User signed out.')
+      })
+    },
     logout () {
+      this.logoutgoogle()  
       localStorage.removeItem('token')
       this.$store.dispatch('logoutobj')
     }
