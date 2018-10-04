@@ -201,7 +201,7 @@ export default {
       })
     },
     logout () {
-      this.logoutgoogle()  
+      this.logoutgoogle()
       localStorage.removeItem('token')
       this.$store.dispatch('logoutobj')
     }
